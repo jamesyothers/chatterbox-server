@@ -4,7 +4,7 @@
  * You'll have to figure out a way to export this function from
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
-
+var fs = require('fs');
 var messages = [];
 var counter = 0;
 
@@ -43,6 +43,18 @@ var handleRequest = function(request, response) {
   // how to handle 'options' https://gist.github.com/nilcolor/816580
   if (request.method === 'OPTIONS') {
     response.end();
+  }
+
+  if (request.url === '/' && request.method === 'GET') {
+      reouteMatched = true;
+      fs.readFile('../client/index.html', function(err, data) {
+        response.writeHead(200, {
+          'Content-Type': 'text/html',
+          'Content-Length': data.length
+        });
+        response.write(data);
+        response.end();
+      });
   }
 
   // research headers
@@ -89,6 +101,7 @@ var handleRequest = function(request, response) {
     response.writeHead(200, headers);
     response.end();
   }
+
 
   if (!routeMatched) {
     response.writeHead(404, headers);
