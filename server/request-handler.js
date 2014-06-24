@@ -52,7 +52,11 @@ var handleRequest = function(request, response) {
           'Content-Type': 'text/html',
           //'Content-Length': data.length
         });
-        response.write(data);
+        if(err){
+          response.write("james why didn't you catch this?");
+        } else {
+          response.write(data);
+        }
         response.end();
       });
   }
