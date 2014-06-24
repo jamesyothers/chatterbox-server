@@ -49,11 +49,11 @@ var handleRequest = function(request, response) {
       reouteMatched = true;
       fs.readFile('../client/index.html', function(err, data) {
         response.writeHead(200, {
-          'Content-Type': 'text/html',
+          'Content-Type': 'text/html'
           //'Content-Length': data.length
         });
         if(err){
-          response.write("james why didn't you catch this?");
+          response.write('james why didnt you catch this?');
         } else {
           response.write(data);
         }
