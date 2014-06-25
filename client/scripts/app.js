@@ -46,7 +46,7 @@ var app = {
       });
     };
 
-    this.server = 'http://chatterbox-server.azurewebsites.net/1/classes/messages';
+    this.server = '1/classes/messages';
     this.currentRoom = 'lobby';
     this.username = 'manu';
     this.friends = {};

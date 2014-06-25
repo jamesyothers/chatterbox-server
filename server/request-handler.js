@@ -34,7 +34,8 @@ var handleRequest = function(request, response) {
 
   /* .writeHead() tells our server what HTTP status code to send back */
   response.writeHead(statusCode, headers);
-
+  console.log('headers: ', headers);
+  debugger;
   /* Make sure to always call response.end() - Node will not send
    * anything back to the client until you do. The string you pass to
    * response.end() will be the body of the response - i.e. what shows
@@ -45,24 +46,37 @@ var handleRequest = function(request, response) {
     response.end();
   }
 
+
   if (request.url === '/' && request.method === 'GET') {
-      reouteMatched = true;
-      fs.readFile('../client/index.html', function(err, data) {
-        response.writeHead(200, {
-          'Content-Type': 'text/html'
-          //'Content-Length': data.length
-        });
-        if(err){
-          response.write('james why didnt you catch this?');
-        } else {
-          response.write(data);
+      routeMatched = true;
+
+      fs.readFile('../client/index.html', function (err, html) {
+        if (err) {
+          throw err;
         }
+      debugger;
+      response.writeHeader(200, {"Content-Type": "text/html"});
+        response.write(html);
         response.end();
+
       });
+
+      // fs.readFile('../client/index.html', function(err, data) {
+      //   response.writeHead(200, {
+      //     'Content-Type': 'text/html'
+      //     //'Content-Length': data.length
+      //   });
+      //   if(err){
+      //     response.write('james why didnt you catch this?');
+      //   } else {
+      //     response.write(data);
+      //   }
+      //   response.end();
+      // });
   }
 
   // research headers
-  if (request.url === '/1/classes/messages'
+  if (request.url === '1/classes/messages'
     && request.method === 'POST') {
     routeMatched = true;
     console.log('POST received');
@@ -90,7 +104,7 @@ var handleRequest = function(request, response) {
 
 
 
-  if (request.url === '/1/classes/messages'
+  if (request.url === '1/classes/messages'
     && request.method === 'GET') {
     routeMatched = true;
 
@@ -99,7 +113,7 @@ var handleRequest = function(request, response) {
     response.end( JSON.stringify( {results: messages} ));
   }
 
-  if (request.url === '/log'
+  if (request.url === '1/classes/messages/log'
     && request.method === 'GET') {
     routeMatched = true;
     response.writeHead(200, headers);
