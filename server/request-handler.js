@@ -18,9 +18,6 @@ var handleRequest = function(request, response) {
 
   var routeMatched = false;
 
-
-  var requestHandled
-
   // request.method is GET or POST
   console.log("Serving request type " + request.method + " for url " + request.url);
 
@@ -34,8 +31,7 @@ var handleRequest = function(request, response) {
 
   /* .writeHead() tells our server what HTTP status code to send back */
   response.writeHead(statusCode, headers);
-  console.log('headers: ', headers);
-  debugger;
+
   /* Make sure to always call response.end() - Node will not send
    * anything back to the client until you do. The string you pass to
    * response.end() will be the body of the response - i.e. what shows
@@ -50,29 +46,18 @@ var handleRequest = function(request, response) {
   if (request.url === '/' && request.method === 'GET') {
       routeMatched = true;
 
-      fs.readFile('../client/index.html', function (err, html) {
-        if (err) {
-          throw err;
+      fs.readFile('./client/index.html', function(err, data) {
+        response.writeHead(200, {
+          'Content-Type': 'text/html'
+        });
+        if(err){
+          console.err('failed to read index file');
+          response.write('failed to read HTML, sorry');
+        } else {
+          response.write(data);
         }
-      debugger;
-      response.writeHeader(200, {"Content-Type": "text/html"});
-        response.write(html);
         response.end();
-
       });
-
-      // fs.readFile('../client/index.html', function(err, data) {
-      //   response.writeHead(200, {
-      //     'Content-Type': 'text/html'
-      //     //'Content-Length': data.length
-      //   });
-      //   if(err){
-      //     response.write('james why didnt you catch this?');
-      //   } else {
-      //     response.write(data);
-      //   }
-      //   response.end();
-      // });
   }
 
   // research headers
